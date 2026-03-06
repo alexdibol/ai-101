@@ -1,1 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
 
+  <title>AI-101 — Machine Learning and Artificial Intelligence Foundations</title>
+  <meta name="description" content="AI-101: a mechanics-first, reproducible, book-and-notebook laboratory for learning machine learning and artificial intelligence through transparent architectures, controlled experiments, and chapter-aligned Colab notebooks." />
+
+  <style>
+    :root{
+      --bg:#07080d;
+      --panel:#0f1220;
+      --panel2:#141836;
+      --text:#eef0ff;
+      --muted:#b8bddb;
+      --border:rgba(255,255,255,0.09);
+      --accent:#7aa2ff;
+      --accent2:#6ee7c8;
+      --warn:#ffd27a;
+      --shadow:0 18px 60px rgba(0,0,0,0.45);
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      background:
+        radial-gradient(900px 600px at 20% 10%, rgba(122,162,255,0.14), transparent 60%),
+        radial-gradient(800px 600px at 80% 90%, rgba(110,231,200,0.10), transparent 60%),
+        var(--bg);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height:1.75;
+    }
+    a{color:var(--accent);text-decoration:none;}
+    a:hover{color:var(--accent2);text-decoration:underline;}
+    .container{max-width:1180px;margin:0 auto;padding:48px 22px 96px;}
+
+    h1{font-size:40px;margin:0 0 14px;text-transform:uppercase;letter-spacing:0.02em;}
+    h2{font-size:30px;margin:64px 0 14px;}
+    h3{font-size:19px;margin:0 0 10px;}
+    p{color:var(--muted);max-width:110ch;}
+
+    .hero{
+      padding:44px;
+      border-radius:24px;
+      background:linear-gradient(180deg, rgba(20,24,54,0.95), rgba(15,18,32,0.9));
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+    }
+
+    .callout{
+      margin-top:26px;
+      padding:22px;
+      border-radius:20px;
+      background:linear-gradient(135deg, rgba(122,162,255,0.08), rgba(110,231,200,0.06));
+      border:1px solid rgba(122,162,255,0.22);
+      color:var(--muted);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:20px;
+      margin-top:28px;
+    }
+
+    .card{
+      padding:22px;
+      border-radius:20px;
+      background:var(--panel2);
+      border:1px solid var(--border);
+      box-shadow:0 12px 34px rgba(0,0,0,0.32);
+      display:flex;
+      flex-direction:column;
+      min-height:240px;
+    }
+
+    .card p{margin:0;}
+    .card p + p{margin-top:10px;}
+
+    .card a{
+      display:inline-block;
+      margin-top:auto;
+      padding-top:14px;
+      font-weight:800;
+      letter-spacing:0.03em;
+      text-transform:uppercase;
+      font-size:12px;
+    }
+
+    .reviewbox{
+      margin-top:28px;
+      padding:28px;
+      border-radius:22px;
+      border:1px solid rgba(255,210,122,0.35);
+      background:linear-gradient(135deg, rgba(255,210,122,0.07), rgba(122,162,255,0.06));
+    }
+
+    .stars{
+      color:var(--warn);
+      font-size:20px;
+      font-weight:900;
+      letter-spacing:0.12em;
+      margin-bottom:14px;
+    }
+
+    footer{
+      margin-top:96px;
+      padding-top:32px;
+      border-top:1px solid var(--border);
+      font-size:13px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    .pill{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(122,162,255,0.22);
+      background:rgba(122,162,255,0.08);
+      color:var(--muted);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+      margin-top:10px;
+    }
+
+    .quicklinks{
+      margin-top:20px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid rgba(122,162,255,0.25);
+      background:rgba(122,162,255,0.08);
+      color:var(--text);
+      font-weight:800;
+      font-size:12px;
+      letter-spacing:0.05em;
+      text-transform:uppercase;
+    }
+    .btn:hover{
+      border-color:rgba(110,231,200,0.35);
+      background:rgba(110,231,200,0.10);
+      text-decoration:none;
+      color:var(--text);
+    }
+
+    .mutednote{
+      font-size:13px;
+      color:var(--muted);
+      margin-top:10px;
+      max-width:110ch;
+    }
+
+    code.inline{
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+      padding:2px 7px;
+      border-radius:10px;
+      color:var(--text);
+      font-size:0.95em;
+    }
+  </style>
+</head>
+
+<body>
+<main class="container">
+
+<section class="hero">
+  <h1>AI-101</h1>
+  <div class="pill">Machine Learning and Artificial Intelligence Foundations · Mechanics-First Laboratory</div>
+
+  <p>
+    <strong>AI-101</strong> is a structured, book-and-notebook learning environment for studying
+    <strong>machine learning and artificial intelligence</strong> through mechanism rather than mystique.
+    The goal is not to produce decorative demos or vague “AI familiarity.” The goal is to make models
+    operationally understandable: what they optimize, how they learn, why architectures differ,
+    where performance comes from, and where limitations begin.
+  </p>
+
+  <p>
+    This repository treats machine learning systems as explicit computational objects with data,
+    parameters, architectures, losses, optimization dynamics, inference behavior, and failure modes.
+    Instead of hiding that structure behind polished summaries, it makes the structure visible through
+    chapter-aligned notebooks and a companion book that explains the conceptual progression from foundational
+    learning systems to deep architectures, generative systems, probabilistic models, graph learning,
+    and evolutionary search.
+  </p>
+
+  <p>
+    The repository is designed for <strong>students, MBA and Master of Finance cohorts, professional practitioners,
+    and independent learners</strong> who want a serious introduction to AI foundations without marketing language,
+    black-box pedagogy, or performative complexity. The book provides the conceptual spine. The notebooks provide
+    the executable laboratories. Together they create a mechanics-first pathway into machine learning literacy.
+  </p>
+
+  <div class="callout">
+    <strong>Core premise:</strong> Mechanism first. Interpretation second. Hype never.<br/>
+    <span class="mutednote">
+      A model is not understood because it has a name. It is understood when its architecture,
+      learning behavior, assumptions, and limits can be explained and observed.
+    </span>
+  </div>
+
+  <div class="quicklinks" aria-label="Quick Links">
+    <a class="btn" href="https://github.com/alexdibol/ai-101/tree/main/book" target="_blank" rel="noopener">Open Book Folder</a>
+    <a class="btn" href="https://github.com/alexdibol/ai-101/tree/main/notebooks" target="_blank" rel="noopener">Open Notebooks Folder</a>
+    <a class="btn" href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%201.ipynb" target="_blank" rel="noopener">Chapter 1 Notebook</a>
+    <a class="btn" href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%202.ipynb" target="_blank" rel="noopener">Chapter 2 Notebook</a>
+    <a class="btn" href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%203.ipynb" target="_blank" rel="noopener">Chapter 3 Notebook</a>
+    <a class="btn" href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%204.ipynb" target="_blank" rel="noopener">Chapter 4 Notebook</a>
+    <a class="btn" href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%205.ipynb" target="_blank" rel="noopener">Chapter 5 Notebook</a>
+    <a class="btn" href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%206.ipynb" target="_blank" rel="noopener">Chapter 6 Notebook</a>
+    <a class="btn" href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%207.ipynb" target="_blank" rel="noopener">Chapter 7 Notebook</a>
+    <a class="btn" href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%208.ipynb" target="_blank" rel="noopener">Chapter 8 Notebook</a>
+    <a class="btn" href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%209.ipynb" target="_blank" rel="noopener">Chapter 9 Notebook</a>
+    <a class="btn" href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%2010.ipynb" target="_blank" rel="noopener">Chapter 10 Notebook</a>
+  </div>
+
+  <p class="mutednote">
+    Repository structure matches the current repo layout: <code class="inline">/book/</code>,
+    <code class="inline">/notebooks/</code>, and <code class="inline">README.md</code>.
+  </p>
+</section>
+
+<section>
+  <h2>The Book</h2>
+
+  <p>
+    The <strong>book</strong> is the conceptual framework of the repository. It explains why each model family matters,
+    what problem it was designed to solve, how its internal mechanism works, how optimization interacts with its structure,
+    what kinds of data it assumes, and why each chapter leads naturally into the next.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Book Folder</h3>
+      <p>
+        The book materials sit in <code class="inline">/book/</code>. This is the narrative and theoretical spine
+        of the project: machine learning foundations, deep architectures, generative systems, probabilistic models,
+        relational learning, and search-based optimization.
+      </p>
+      <p>
+        The book is meant to be read as a cumulative learning journey rather than a disconnected catalog of techniques.
+      </p>
+      <a href="https://github.com/alexdibol/ai-101/tree/main/book" target="_blank" rel="noopener">Open Book Folder</a>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Pedagogical role:</strong> the book explains the theory and sequence;
+    the notebooks let the learner observe the mechanism in action.
+  </div>
+</section>
+
+<section>
+  <h2>The Notebooks</h2>
+
+  <p>
+    The notebooks are the executable laboratories of <strong>AI-101</strong>. Each notebook corresponds to a chapter
+    and turns that chapter’s concepts into runnable experiments. Instead of merely describing a model family,
+    the notebook defines it, trains it, visualizes it, and exposes the user to its behavior under explicit settings.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Controlled Experiments</h3>
+      <p>
+        Each notebook is designed to make the structure of learning visible: data generation or preparation,
+        model definition, optimization, evaluation, plotting, and interpretation of results.
+      </p>
+      <p>
+        The learner sees not only what the model can do, but also how it fails, saturates, overfits,
+        generalizes, or responds to changes in hyperparameters and architecture.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Chapter Alignment</h3>
+      <p>
+        The notebooks are not generic AI demos. They are organized to align directly with the chapter sequence
+        of the book so that conceptual explanation and executable evidence remain tightly connected.
+      </p>
+      <p>
+        This keeps the learning process cumulative and coherent rather than fragmented across unrelated examples.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Reproducible Learning</h3>
+      <p>
+        Where appropriate, notebooks use explicit setup steps, controlled randomness, synthetic or structured data,
+        and visible diagnostics so results can be rerun, inspected, and compared.
+      </p>
+      <p>
+        The goal is not theatrical output. The goal is repeatable understanding.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Chapter Sequence</h2>
+
+  <p>
+    The repository is organized around <strong>10 chapters</strong>, each representing a major family of ideas in
+    machine learning and artificial intelligence. The sequence is cumulative: each chapter resolves limitations left
+    partially open by the previous one and expands the learner’s understanding of what learning systems can represent.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Chapter 1 — Foundations of Learning Systems</h3>
+      <p>
+        Introduces the core logic of machine learning: data, parameters, loss, optimization, prediction,
+        and generalization. This is the conceptual floor for the entire repository.
+      </p>
+      <a href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%201.ipynb" target="_blank" rel="noopener">Open Notebook</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 2 — Dense Neural Networks</h3>
+      <p>
+        Studies fully connected networks, nonlinear activation, backpropagation, and the first major step
+        beyond linear models into flexible parametric function approximation.
+      </p>
+      <a href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%202.ipynb" target="_blank" rel="noopener">Open Notebook</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 3 — Convolutional Neural Networks</h3>
+      <p>
+        Introduces locality, receptive fields, and weight sharing, showing why architecture matters when the data
+        has spatial structure such as images or grid-like signals.
+      </p>
+      <a href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%203.ipynb" target="_blank" rel="noopener">Open Notebook</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 4 — Recurrent Models and Sequential Structure</h3>
+      <p>
+        Focuses on temporal ordering, hidden state, memory, and the challenge of learning dependencies over sequences.
+      </p>
+      <a href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%204.ipynb" target="_blank" rel="noopener">Open Notebook</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 5 — Autoencoders and Representation Learning</h3>
+      <p>
+        Explores latent structure, compression, reconstruction, and the logic of learning informative internal encodings.
+      </p>
+      <a href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%205.ipynb" target="_blank" rel="noopener">Open Notebook</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 6 — Transformers and Attention</h3>
+      <p>
+        Explains attention as learned relational weighting across a sequence and develops intuition for contextual interaction
+        without recurrence.
+      </p>
+      <a href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%206.ipynb" target="_blank" rel="noopener">Open Notebook</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 7 — Generative Adversarial Networks</h3>
+      <p>
+        Introduces adversarial learning through generator-discriminator competition and demonstrates how models can learn
+        to generate data-like outputs.
+      </p>
+      <a href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%207.ipynb" target="_blank" rel="noopener">Open Notebook</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 8 — Variational and Probabilistic Deep Learning</h3>
+      <p>
+        Moves beyond deterministic mappings to uncertainty-aware models, latent distributions, sampling, and probabilistic interpretation.
+      </p>
+      <a href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%208.ipynb" target="_blank" rel="noopener">Open Notebook</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 9 — Graph Neural Networks</h3>
+      <p>
+        Shifts the learning setting to relational systems, showing how information propagates across nodes and edges
+        in non-Euclidean structures.
+      </p>
+      <a href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%209.ipynb" target="_blank" rel="noopener">Open Notebook</a>
+    </div>
+
+    <div class="card">
+      <h3>Chapter 10 — Evolutionary and Search-Based Learning</h3>
+      <p>
+        Broadens the optimization perspective beyond gradients, exploring mutation, selection, population-based search,
+        and adaptive optimization logic in complex spaces.
+      </p>
+      <a href="https://github.com/alexdibol/ai-101/blob/main/notebooks/CHAPTER%2010.ipynb" target="_blank" rel="noopener">Open Notebook</a>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Learning invariant:</strong> each chapter is meant to show not only what a model family can do,
+    but what assumptions it makes, what structure it encodes, and what limitations it carries.
+  </div>
+</section>
+
+<section>
+  <h2>What This Repository Teaches</h2>
+
+  <p>
+    Across the full project, <strong>AI-101</strong> is designed to teach a particular habit of mind:
+    not “the model gave an answer,” but “under these assumptions, with this architecture, trained on this data,
+    the model behaved in this way.”
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Training vs Inference</h3>
+      <p>
+        Learners see clearly that training is parameter adjustment under a loss, while inference is the application
+        of an already learned mapping. This distinction is foundational and often blurred in casual AI discussion.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Architecture Matters</h3>
+      <p>
+        Dense nets, CNNs, recurrent models, transformers, graph networks, and evolutionary methods are not merely
+        different names. They encode different assumptions about data and computation.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Failure Is Part of the Subject</h3>
+      <p>
+        Overfitting, instability, poor inductive bias, optimization difficulty, sensitivity to noise,
+        and structural mismatch are treated as central educational objects rather than side comments.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Recommended Way to Use the Repository</h2>
+
+  <div class="reviewbox">
+    <div class="stars">•••••</div>
+    <p>
+      Start with the relevant chapter materials in <code class="inline">/book/</code>, then open the corresponding notebook
+      in <code class="inline">/notebooks/</code>. Run the notebook once exactly as written. After that, change one thing at a time:
+      learning rate, number of epochs, hidden width, noise level, sample size, or model depth. Observe what changes and what does not.
+      The point is not to collect outputs. The point is to build mechanism-level intuition.
+    </p>
+    <p>
+      This repository works best when treated as a laboratory rather than a slideshow. Understanding grows when the learner sees how
+      the system behaves under controlled perturbation.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>Repository Structure</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Current Layout</h3>
+      <p>
+        The repository currently follows a deliberately simple structure:
+        <code class="inline">/book/</code> for the conceptual framework,
+        <code class="inline">/notebooks/</code> for chapter-aligned Colab laboratories,
+        and <code class="inline">README.md</code> for orientation.
+      </p>
+      <p class="mutednote">
+        This keeps the public-facing educational pathway clean and easy to navigate.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Book URL Pattern</h3>
+      <p>
+        Book materials live under:
+        <code class="inline">https://github.com/alexdibol/ai-101/tree/main/book</code>
+      </p>
+      <p>
+        If a compiled PDF is added later, it will follow the standard pattern:
+        <code class="inline">/book/&lt;BOOK_FILENAME&gt;.pdf</code>
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Notebook URL Pattern</h3>
+      <p>
+        Chapter notebooks live under:
+        <code class="inline">https://github.com/alexdibol/ai-101/tree/main/notebooks</code>
+      </p>
+      <p>
+        Individual chapters follow the pattern:
+        <code class="inline">/notebooks/CHAPTER%20N.ipynb</code>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Educational Positioning</h2>
+
+  <div class="callout">
+    <p>
+      <strong>AI-101</strong> is an educational and research repository. It is not a production platform,
+      not a commercial performance claim, and not a substitute for domain validation.
+    </p>
+
+    <p>
+      Nothing in this repository constitutes investment advice, trading advice, legal advice, tax advice,
+      accounting advice, audit advice, regulatory advice, or professional certification of any kind.
+    </p>
+
+    <p>
+      Any real-world use of machine learning or artificial intelligence systems requires domain-appropriate validation,
+      professional review, and human accountability.
+    </p>
+
+    <p>
+      <strong>License:</strong> MIT License<br/>
+      <strong>Copyright (c) 2026 Alejandro Reynoso</strong>
+    </p>
+  </div>
+</section>
+
+<footer>
+  AI-101 · Machine Learning and Artificial Intelligence Foundations · Mechanics-First · Reproducible · Pedagogically Structured
+</footer>
+
+</main>
+</body>
+</html>
